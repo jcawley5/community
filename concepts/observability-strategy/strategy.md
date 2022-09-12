@@ -2,7 +2,7 @@
 
 ## Motivation
 
-The Kyma project evolved over time, from an extensibility framework with "batteries included", to a runtime that focuses on providing Kubernetes building blocks with enterprise-grade quality. Up until now, the Kyma Observability feature is providing an out-of-the box in-cluster stack that gets you started immediately, but which does not qualify for the enterprise-grade qualities. Various observability backends are already available as managed services from different vendors fulfilling these criterias. The possibility for integration into these offerings will not only bring provide the missing value but also Openness - it is up to the users scenarios which observability system will fit best to the actual requirements.
+The Kyma project has evolved from an extensibility framework with "batteries included", to a runtime that focuses on providing Kubernetes building blocks with enterprise-grade quality. Up until now, the Kyma Observability feature is providing an out-of-the box in-cluster stack that gets you started immediately, but does not qualify for the enterprise-grade qualities. Various observability backends are already available as managed services from different vendors fulfilling these criterias. The possibility for integration into these offerings will not only provide the missing value but also Openness - allowing the use case to determine which observability system will fit best to the actual requirements.
 When Kyma supports a simple way of instrumenting, collecting and integration of the workloads telemetry data into available observability systems, leveraging the [OpenTelemetry](https://opentelemetry.io/) standards to provide integration options in a vendor-neutral approach, the Kyma Observability feature is ready for it's evolution too.
 
 
@@ -76,9 +76,9 @@ To sum it up, the goals of Kyma observability should be:
 
 ## Architecture
 
-The strategy shift will be backed by a new layer of collectors that are not bound to any backend anymore. This layer is responsible for collecting and enriching all telemetry data, depending on the signal type. As long as the best practices for instrumentation are followed, the data is collected automatically.
+The strategy shift will be backed by a new layer of collectors that are not bound to any backend anymore. This layer is responsible for collecting and enriching all telemetry data, depending on the signal type. As long as the best practices for instrumentation are followed, the data will be collected automatically.
 
-Users can configure the collectors at runtime with different signal pipelines using basic filtering (inclusion and exclusion of signals) and outputs, so that the collectors start shipping the signals through the pipelines to the configured backends. The dynamic configuration and management of the collector is handled by a new operator, which is configured using Kubernetes API. The collectors and the new operator are bundled in a new core component called `telemetry`.
+Users can configure the collectors at runtime with different signal pipelines using basic filtering (inclusion and exclusion of signals) and outputs, so that the collectors start shipping the signals through the pipelines to the configured backend(s). The dynamic configuration and management of the collector is handled by a new operator, which is configured using the Kubernetes API. The collectors and the new operator are bundled in a new core component called `telemetry`.
 
 To guarantee enterprise-grade qualities, the configuration options for the collectors using the Kubernetes API will be limited. However, users can run their own collector setup for advanced customization options at any time.
 
@@ -88,7 +88,7 @@ The existing Kyma backends and UIs will be just one possible solution to integra
 
 The technology stack for instrumentation and collection will be based on the [OpenTelemetry](https://opentelemetry.io/) project. The central data protocol will be [OTLP](https://opentelemetry.io/docs/reference/specification/protocol/); for trace propagation it will be [w3c-tracecontext](https://www.w3.org/TR/trace-context/). As exception to that, the technology stack for log collection will be based on the [Fluent Bit](https://fluentbit.io/) and [Fluentd](https://www.fluentd.org/) ecosystem and the specific protocols, with the goal to adopt to OpenTelemetry at a later time.
 
-As mentioned before, the collector setup and used protocols for the signal collection depend on the signal types: Logs are tailed from container log files, metrics usually are pulled using the Prometheus format, and traces are pushed with OTLP. With that, the pre-integration (so that typical signals are collected instantly) is different per type.
+As previously mentioned, the collector setup and used protocols for the signal collection depend on the signal types: Logs are tailed from container log files, metrics usually are pulled using the Prometheus format, and traces are pushed with OTLP. With that, the pre-integration (so that typical signals are collected instantly) is different per type.
 That's why the specific concepts for the different types are different, and are discussed in more detail in the following documents. Note that these documents are still under development and should not be seen as final yet:
 * [Concept - Configurable Logging](./configurable-logging/README.md) 
 * [Concept - Configurable Monitoring](./configurable-monitoring/README.md)
